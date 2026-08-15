@@ -1,1 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Smart Traffic AI Dashboard
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>🚦 Smart Traffic</h2>
+
+    <a class="active">Dashboard</a>
+    <a>Dataset</a>
+    <a>Intersections</a>
+    <a>AI Optimization</a>
+    <a>Simulation</a>
+    <a>Reports</a>
+
+</div>
+
+
+<div class="main">
+
+    <header>
+
+        <div>
+            <h1>
+                Adaptive Multi-Agent Traffic
+                Signal Optimization
+            </h1>
+
+            <p>
+                AI Search + Constraint-Based Optimization
+            </p>
+        </div>
+
+        <div class="status">
+            ● System Online
+        </div>
+
+    </header>
+
+
+    <!-- STATISTICS -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <span>Dataset Records</span>
+            <strong>
+                {{ total_records }}
+            </strong>
+        </div>
+
+        <div class="stat-card">
+            <span>Total Vehicles</span>
+            <strong>
+                {{ total_vehicles }}
+            </strong>
+        </div>
+
+        <div class="stat-card">
+            <span>Average Waiting Time</span>
+            <strong>
+                {{ average_waiting_time }} sec
+            </strong>
+        </div>
+
+        <div class="stat-card">
+            <span>Average Speed</span>
+            <strong>
+                {{ average_speed }} km/h
+            </strong>
+        </div>
+
+    </section>
+
+
+    <!-- TRAFFIC SUMMARY -->
+
+    <section class="traffic-summary">
+
+        <div>
+            <h3>Traffic Distribution</h3>
+
+            <p>
+                🔴 High:
+                <b>{{ high_traffic }}</b>
+            </p>
+
+            <p>
+                🟠 Medium:
+                <b>{{ medium_traffic }}</b>
+            </p>
+
+            <p>
+                🟢 Low:
+                <b>{{ low_traffic }}</b>
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>Lane Occupancy</h3>
+
+            <strong>
+                {{ average_occupancy }}%
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- DATASET -->
+
+    <section class="dataset">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    Traffic Dataset
+                </h2>
+
+                <p>
+                    Live data from traffic_dataset.csv
+                </p>
+
+            </div>
+
+            <button id="optimizeButton">
+                Run AI Optimization
+            </button>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>Vehicle Count</th>
+                    <th>Speed</th>
+                    <th>Occupancy</th>
+                    <th>Flow Rate</th>
+                    <th>Time</th>
+                    <th>Waiting Time</th>
+                    <th>Traffic</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for row in records %}
+
+                <tr>
+
+                    <td>
+                        {{ row.vehicle_count }}
+                    </td>
+
+                    <td>
+                        {{ "%.2f"|format(row.average_speed) }}
+                    </td>
+
+                    <td>
+                        {{ "%.2f"|format(row.lane_occupancy) }}%
+                    </td>
+
+                    <td>
+                        {{ row.flow_rate }}
+                    </td>
+
+                    <td>
+                        {{ row.time_of_day }}
+                    </td>
+
+                    <td>
+                        {{ "%.2f"|format(row.waiting_time) }}
+                        sec
+                    </td>
+
+                    <td>
+
+                        {% if row.traffic_level == "HIGH" %}
+
+                            <span class="high">
+                                HIGH
+                            </span>
+
+                        {% elif row.traffic_level == "MEDIUM" %}
+
+                            <span class="medium">
+                                MEDIUM
+                            </span>
+
+                        {% else %}
+
+                            <span class="low">
+                                LOW
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script src="{{ url_for('static',
+filename='js/dashboard.js') }}">
+</script>
+
+</body>
+
+</html>
